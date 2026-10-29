@@ -52,35 +52,20 @@
             BEST RECORD
         </p>
 
-        {% if best_score > 0 %}
+        <div
+            id="title-best-score"
+            class="best-score-number"
+        >
+            🏆 ---
+        </div>
 
-            <div class="best-score-number">
-                🏆 {{ best_score|intcomma }}
-            </div>
+        <p id="title-best-message">
+            まだ記録はありません。
+        </p>
 
-            <p>
-                現在の最高スコア
-            </p>
-
-            <p>
-                この記録を超える経営を目指そう！
-            </p>
-
-        {% else %}
-
-            <div class="best-score-number">
-                🏆 ---
-            </div>
-
-            <p>
-                まだ記録はありません。
-            </p>
-
-            <p>
-                最初の30日間に挑戦してみよう！
-            </p>
-
-        {% endif %}
+        <p id="title-best-submessage">
+            最初の30日間に挑戦してみよう！
+        </p>
 
     </section>
 
@@ -477,6 +462,49 @@
 
 </main>
 
-</body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const storageKey = "cafeManagerBestScore";
 
+    const scoreElement =
+        document.getElementById("title-best-score");
+
+    const messageElement =
+        document.getElementById("title-best-message");
+
+    const submessageElement =
+        document.getElementById("title-best-submessage");
+
+    let bestScore = 0;
+
+    try {
+        const savedScore = Number.parseInt(
+            localStorage.getItem(storageKey),
+            10
+        );
+
+        if (Number.isFinite(savedScore) && savedScore > 0) {
+            bestScore = savedScore;
+        }
+    } catch (error) {
+        console.warn(
+            "BEST SCOREを読み込めませんでした。",
+            error
+        );
+    }
+
+    if (bestScore > 0) {
+        scoreElement.textContent =
+            "🏆 " + bestScore.toLocaleString("ja-JP");
+
+        messageElement.textContent =
+            "現在の最高スコア";
+
+        submessageElement.textContent =
+            "この記録を超える経営を目指そう！";
+    }
+});
+</script>
+
+</body>
 </html>

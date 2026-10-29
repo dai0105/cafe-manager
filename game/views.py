@@ -68,20 +68,9 @@ def generate_weather():
     )[0]
 
 def title_view(request):
-
-    best_score = request.session.get(
-        "best_score",
-        0
-    )
-
-    context = {
-        "best_score": best_score,
-    }
-
     return render(
         request,
-        "game/title.html",
-        context
+        "game/title.html"
     )
 
 
@@ -589,24 +578,7 @@ def ending_view(request):
         reputation * 100
         + money // 1000
     )
-
-    # これまでの最高スコア
-    best_score = request.session.get(
-        "best_score",
-        0
-    )
-
-    # BEST更新判定
-    is_new_record = False
-
-    if score > best_score:
-
-        best_score = score
-
-        request.session["best_score"] = best_score
-
-        is_new_record = True
-
+        
     if score >= 10000:
         rank = "S"
         title = "伝説の店長"
@@ -649,8 +621,6 @@ def ending_view(request):
         "rank": rank,
         "title": title,
         "message": message,
-        "best_score": best_score,
-        "is_new_record": is_new_record,
     }
 
     return render(

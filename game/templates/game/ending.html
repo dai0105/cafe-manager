@@ -184,25 +184,26 @@
 
         <!-- NEW RECORD -->
 
-        {% if is_new_record %}
+        <section
+            id="new-record-card"
+            class="game-card new-record-card"
+            hidden
+        >
+            <div class="new-record-title">
+                🎉 NEW RECORD！
+            </div>
 
-            <section class="game-card new-record-card">
+            <p>
+                最高スコアを更新しました！
+            </p>
 
-                <div class="new-record-title">
-                    🎉 NEW RECORD！
-                </div>
-
-                <p>
-                    最高スコアを更新しました！
-                </p>
-
-                <div class="new-record-score">
-                    {{ best_score|intcomma }}
-                </div>
-
-            </section>
-
-        {% endif %}
+            <div
+                id="new-record-score"
+                class="new-record-score"
+            >
+                0
+            </div>
+        </section>
 
 
         <!-- ランク -->
@@ -275,8 +276,11 @@
                         今回のスコア
                     </span>
 
-                    <span class="status-value">
-                        {{ score|intcomma }}
+                    <span
+                        id="best-score-value"
+                        class="status-value"
+                    >
+                        🏆 ---
                     </span>
 
                 </div>
@@ -451,7 +455,7 @@
 
                 <p>
                     現在のBESTは
-                    <strong>{{ best_score|intcomma }}</strong>点です。
+                    <strong id="best-score-text">---</strong>点です。
                 </p>
 
             {% endif %}
@@ -470,6 +474,80 @@
 
 
 </main>
+
+</main>
+
+{% if not ending_reason %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const storageKey = "cafeManagerBestScore";
+    const currentScore = Number("{{ score|default:0 }}");
+
+    let previousBest = 0;
+
+    try {
+        const savedScore = Number.parseInt(
+            localStorage.getItem(storageKey),
+            10
+        );
+
+        if (Number.isFinite(savedScore) && savedScore > 0) {
+            previousBest = savedScore;
+        }
+    } catch (error) {
+        console.warn("BEST SCOREを読み込めませんでした。", error);
+    }
+
+    const isNewRecord = currentScore > previousBest;
+    const bestScore = Math.max(currentScore, previousBest);
+    const formattedBestScore = bestScore.toLocaleString("ja-JP");
+
+    if (isNewRecord) {
+        try {
+            localStorage.setItem(
+                storageKey,
+                String(bestScore)
+            );
+        } catch (error) {
+            console.warn("BEST SCOREを保存できませんでした。", error);
+        }
+
+        const newRecordCard =
+            document.getElementById("new-record-card");
+
+        const newRecordScore =
+            document.getElementById("new-record-score");
+
+        if (newRecordCard) {
+            newRecordCard.hidden = false;
+        }
+
+        if (newRecordScore) {
+            newRecordScore.textContent = formattedBestScore;
+        }
+    }
+
+    const bestScoreValue =
+        document.getElementById("best-score-value");
+
+    const bestScoreText =
+        document.getElementById("best-score-text");
+
+    if (bestScoreValue) {
+        bestScoreValue.textContent =
+            "🏆 " + formattedBestScore;
+    }
+
+    if (bestScoreText) {
+        bestScoreText.textContent =
+            formattedBestScore;
+    }
+});
+</script>
+{% endif %}
+
+</body>
+</html>
 
 </body>
 
