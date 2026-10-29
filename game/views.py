@@ -92,7 +92,7 @@ def start_game(request):
         None
     )
 
-    request.session["day"] = 30
+    request.session["day"] = 1
     request.session["money"] = 300000
 
     # 店舗評価
