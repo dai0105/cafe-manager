@@ -1,0 +1,706 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>営業結果</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'game/css/style.css' %}"
+    >
+</head>
+
+<body>
+
+<main class="game-container">
+
+
+    <!-- =========================
+         ヘッダー
+    ========================== -->
+
+    <header class="game-header">
+
+        <p class="game-subtitle">
+            DAILY REPORT
+        </p>
+
+        <h1 class="game-title">
+            ☕ 営業結果
+        </h1>
+
+        <p>
+            Day {{ day }} の営業が終了しました。
+        </p>
+
+    </header>
+
+
+    <!-- =========================
+         ランダムイベント
+    ========================== -->
+
+    {% if new_product or regular_customer or complaint %}
+
+        <section class="game-card">
+
+            <h2>🎲 本日のイベント</h2>
+
+
+            {% if new_product %}
+
+                <div class="success-box">
+
+                    <h3>
+                        🧁 新商品販売開始！
+                    </h3>
+
+                    <p>
+                        <strong>
+                            {{ new_product_name }}
+                        </strong>
+                    </p>
+
+                    <p class="positive">
+                        客単価 +{{ new_product_bonus|intcomma }}円
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            {% if regular_customer %}
+
+                <div class="success-box">
+
+                    <h3>
+                        ☕ 常連客イベント発生！
+                    </h3>
+
+                    <p>
+                        常連のお客様が来店しました。
+                    </p>
+
+                    <p class="positive">
+                        来客数 +{{ regular_bonus }}人
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            {% if complaint %}
+
+                <div class="danger-box">
+
+                    <h3>
+                        ⚠ クレーム発生！
+                    </h3>
+
+                    <p>
+                        {{ complaint_text }}
+                    </p>
+
+                    <p class="negative">
+                        来客数 -{{ complaint_penalty }}人
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    {% endif %}
+
+
+    <!-- =========================
+         本日の店舗状況
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>📊 本日の営業結果</h2>
+
+        <div class="status-grid">
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    天気
+                </span>
+
+                <span class="status-value">
+
+                    {% if weather == "晴れ" %}
+                        ☀️
+                    {% elif weather == "曇り" %}
+                        ☁️
+                    {% elif weather == "雨" %}
+                        ☔
+                    {% else %}
+                        🌀
+                    {% endif %}
+
+                    {{ weather }}
+
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    店舗評価
+                </span>
+
+                <span class="status-value">
+                    ⭐ {{ reputation }}
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    実来客数
+                </span>
+
+                <span class="status-value">
+                    {{ visitors }}人
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    売上
+                </span>
+
+                <span class="status-value">
+                    {{ sales|intcomma }}円
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- 評価増減 -->
+
+        {% if reputation_change > 0 %}
+
+            <div class="success-box">
+
+                <strong class="positive">
+                    📈 店舗評価 +{{ reputation_change }}
+                </strong>
+
+            </div>
+
+
+        {% elif reputation_change < 0 %}
+
+            <div class="danger-box">
+
+                <strong class="negative">
+                    📉 店舗評価 {{ reputation_change }}
+                </strong>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="warning-box">
+
+                <strong>
+                    ➡ 店舗評価の変動なし
+                </strong>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         来客分析
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>👥 来客分析</h2>
+
+        <div class="status-grid">
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    基本来客数
+                </span>
+
+                <span class="status-value">
+                    {{ base_visitors }}人
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    評価ボーナス
+                </span>
+
+                <span class="status-value positive">
+                    +{{ bonus_visitors }}人
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    来客予定
+                </span>
+
+                <span class="status-value">
+                    {{ expected_visitors }}人
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    実来客数
+                </span>
+
+                <span class="status-value">
+                    {{ visitors }}人
+                </span>
+
+            </div>
+
+        </div>
+
+
+        {% if lost_visitors > 0 %}
+
+            <div class="danger-box">
+
+                <strong>
+                    ⚠ 人手不足が発生しました
+                </strong>
+
+                <p>
+                    対応可能人数：
+                    {{ capacity }}人
+                </p>
+
+                <p class="negative">
+                    機会損失：
+                    {{ lost_visitors }}人
+                </p>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="success-box">
+
+                <strong>
+                    ✅ すべてのお客様に対応できました
+                </strong>
+
+                <p>
+                    対応可能人数：
+                    {{ capacity }}人
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         売上・利益
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>💰 売上・利益</h2>
+
+        <div class="status-grid">
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    客単価
+                </span>
+
+                <span class="status-value">
+                    {{ unit_price|intcomma }}円
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    売上
+                </span>
+
+                <span class="status-value">
+                    {{ sales|intcomma }}円
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    人件費
+                </span>
+
+                <span class="status-value negative">
+                    {{ labor_cost|intcomma }}円
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    仕入れ費
+                </span>
+
+                <span class="status-value negative">
+                    {{ ingredient_cost|intcomma }}円
+                </span>
+
+            </div>
+
+        </div>
+
+
+        {% if profit > 0 %}
+
+            <div class="success-box">
+
+                <strong>
+                    本日の利益
+                </strong>
+
+                <p class="positive result-money">
+                    +{{ profit|intcomma }}円
+                </p>
+
+            </div>
+
+
+        {% elif profit < 0 %}
+
+            <div class="danger-box">
+
+                <strong>
+                    本日の損失
+                </strong>
+
+                <p class="negative result-money">
+                    {{ profit|intcomma }}円
+                </p>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="warning-box">
+
+                <strong>
+                    本日の利益：0円
+                </strong>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         評価変動ログ
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>⭐ 評価変動</h2>
+
+
+        {% if reputation_logs %}
+
+            <ul class="reputation-log">
+
+                {% for log in reputation_logs %}
+
+                    <li>
+                        {{ log }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+            {% if reputation_change > 0 %}
+
+                <div class="success-box">
+
+                    <strong>
+                        合計評価：
+                        <span class="positive">
+                            +{{ reputation_change }}
+                        </span>
+                    </strong>
+
+                </div>
+
+
+            {% elif reputation_change < 0 %}
+
+                <div class="danger-box">
+
+                    <strong>
+                        合計評価：
+                        <span class="negative">
+                            {{ reputation_change }}
+                        </span>
+                    </strong>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="warning-box">
+
+                    <strong>
+                        合計評価：±0
+                    </strong>
+
+                </div>
+
+            {% endif %}
+
+
+        {% else %}
+
+            <p>
+                本日の店舗評価に
+                変動はありませんでした。
+            </p>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         出勤スタッフ
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>👥 本日の出勤スタッフ</h2>
+
+
+        <div class="staff-grid">
+
+            {% for staff in selected_staff %}
+
+                <div class="staff-card">
+
+                    <div class="staff-name">
+
+                        {% if staff.capacity >= 80 %}
+                            🌟
+                        {% elif staff.capacity >= 65 %}
+                            ⭐
+                        {% elif staff.capacity >= 55 %}
+                            ☕
+                        {% else %}
+                            🔰
+                        {% endif %}
+
+                        {{ staff.name }}
+
+                    </div>
+
+
+                    <p class="staff-info">
+                        対応能力：
+                        <strong>
+                            {{ staff.capacity }}
+                        </strong>
+                    </p>
+
+
+                    <p class="staff-info">
+                        日給：
+                        <strong>
+                            {{ staff.daily_wage }}円
+                        </strong>
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="status-grid">
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    出勤人数
+                </span>
+
+                <span class="status-value">
+                    {{ working_staff }}人
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    対応可能人数
+                </span>
+
+                <span class="status-value">
+                    {{ capacity }}人
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    平均能力
+                </span>
+
+                <span class="status-value">
+                    {{ average_capacity }}
+                </span>
+
+            </div>
+
+
+            <div class="status-box">
+
+                <span class="status-label">
+                    クレーム発生率
+                </span>
+
+                <span class="status-value">
+                    {{ complaint_rate }}%
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         店長日報
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>
+            📋 店長日報
+        </h2>
+
+
+        <div class="daily-report">
+
+            <div class="daily-report-title">
+                Day {{ day }} 営業日報
+            </div>
+
+            {{ daily_report }}
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         現在資金
+    ========================== -->
+
+    <section class="game-card start-card">
+
+        <h2>
+            💰 現在の資金
+        </h2>
+
+        <div class="ending-money">
+            {{ money|intcomma }}円
+        </div>
+
+        <p>
+            今日の営業は終了しました。
+            次の日の経営へ進みましょう。
+        </p>
+
+
+        <a
+            href="{% url 'next_day' %}"
+            class="game-button"
+        >
+            ▶ 次の日へ
+        </a>
+
+    </section>
+
+
+</main>
+
+</body>
+
+</html>

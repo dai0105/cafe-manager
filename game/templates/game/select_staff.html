@@ -1,0 +1,376 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>出勤スタッフ選択</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'game/css/style.css' %}"
+    >
+</head>
+
+<body>
+
+<main class="game-container">
+
+
+    <!-- =========================
+         ヘッダー
+    ========================== -->
+
+    <header class="game-header">
+
+        <p class="game-subtitle">
+            SHIFT MANAGEMENT
+        </p>
+
+        <h1 class="game-title">
+            👥 出勤スタッフ選択
+        </h1>
+
+        <p>
+            今日の営業を任せるスタッフを
+            2〜4人選んでください。
+        </p>
+
+    </header>
+
+
+    <!-- =========================
+         天気予報
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>🌤️ 本日の天気予報</h2>
+
+
+        {% if today_weather == "晴れ" %}
+
+            <div class="success-box">
+
+                <h3>
+                    ☀️ 晴れ
+                </h3>
+
+                <p>
+                    来客数が多くなりそうです。
+                </p>
+
+                <p>
+                    <strong>
+                        対応能力の高いスタッフを
+                        入れるか検討しましょう。
+                    </strong>
+                </p>
+
+            </div>
+
+
+        {% elif today_weather == "曇り" %}
+
+            <div class="success-box">
+
+                <h3>
+                    ☁️ 曇り
+                </h3>
+
+                <p>
+                    通常程度の来客が見込まれます。
+                </p>
+
+                <p>
+                    戦力と人件費のバランスが
+                    ポイントになりそうです。
+                </p>
+
+            </div>
+
+
+        {% elif today_weather == "雨" %}
+
+            <div class="warning-box">
+
+                <h3>
+                    ☔ 雨
+                </h3>
+
+                <p>
+                    来客数は少なめになりそうです。
+                </p>
+
+                <p>
+                    <strong>
+                        エースを温存するのも
+                        一つの戦略です。
+                    </strong>
+                </p>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="danger-box">
+
+                <h3>
+                    🌀 台風
+                </h3>
+
+                <p>
+                    大幅な来客減少が予想されます。
+                </p>
+
+                <p>
+                    人件費を抑えたシフトも
+                    検討してみましょう。
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         ルール
+    ========================== -->
+
+    <section class="game-card">
+
+        <h2>📋 シフトルール</h2>
+
+        <div class="warning-box">
+
+            <p>
+                <strong>
+                    2人以上4人以下
+                </strong>
+                を選択してください。
+            </p>
+
+            <p>
+                出勤すると、そのスタッフの
+                残り出勤可能回数が1回減ります。
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         エラー表示
+    ========================== -->
+
+    {% if error %}
+
+        <section class="game-card">
+
+            <div class="danger-box">
+
+                <strong>
+                    ⚠ シフトを確認してください
+                </strong>
+
+                <p>
+                    {{ error }}
+                </p>
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    <!-- =========================
+         スタッフ選択
+    ========================== -->
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <section class="game-card">
+
+            <h2>👥 出勤メンバー</h2>
+
+            <p>
+                能力・日給・残り出勤回数を考えて
+                今日のメンバーを選びましょう。
+            </p>
+
+
+            <div class="staff-grid">
+
+                {% for staff in staff_list %}
+
+
+                    <label class="staff-card staff-select-card">
+
+
+                        <!-- 選択チェック -->
+                        <div class="staff-select-header">
+
+                            <input
+                                type="checkbox"
+                                name="staff"
+                                value="{{ staff.name }}"
+
+                                {% if staff.remaining_days <= 0 %}
+                                    disabled
+                                {% endif %}
+                            >
+
+
+                            <span class="staff-name">
+
+                                {% if staff.capacity >= 80 %}
+
+                                    🌟
+
+                                {% elif staff.capacity >= 65 %}
+
+                                    ⭐
+
+                                {% elif staff.capacity >= 55 %}
+
+                                    ☕
+
+                                {% else %}
+
+                                    🔰
+
+                                {% endif %}
+
+                                {{ staff.name }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- 能力 -->
+                        <p class="staff-info">
+
+                            対応能力：
+
+                            <strong>
+                                {{ staff.capacity }}
+                            </strong>
+
+                        </p>
+
+
+                        <!-- 日給 -->
+                        <p class="staff-info">
+
+                            日給：
+
+                            <strong>
+                                {{ staff.daily_wage|intcomma }}円
+                            </strong>
+
+                        </p>
+
+
+                        <!-- 残り回数 -->
+                        <p class="staff-info">
+
+                            残り出勤：
+
+                            {% if staff.remaining_days <= 0 %}
+
+                                <strong class="negative">
+                                    0回
+                                </strong>
+
+                            {% elif staff.remaining_days <= 3 %}
+
+                                <strong class="negative">
+                                    {{ staff.remaining_days }}回
+                                </strong>
+
+                            {% elif staff.remaining_days <= 6 %}
+
+                                <strong>
+                                    {{ staff.remaining_days }}回
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="positive">
+                                    {{ staff.remaining_days }}回
+                                </strong>
+
+                            {% endif %}
+
+                        </p>
+
+
+                        <!-- 出勤不可 -->
+                        {% if staff.remaining_days <= 0 %}
+
+                            <div class="staff-unavailable">
+                                出勤不可
+                            </div>
+
+                        {% endif %}
+
+
+                    </label>
+
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             営業開始
+        ========================== -->
+
+        <section class="game-card start-card">
+
+            <h2>
+                ☕ 今日の営業を始める
+            </h2>
+
+            <p>
+                選んだスタッフの日給・能力・
+                残り出勤可能回数を
+                もう一度確認しましょう。
+            </p>
+
+            <button
+                type="submit"
+                class="game-button"
+            >
+                🚪 営業開始
+            </button>
+
+        </section>
+
+    </form>
+
+
+</main>
+
+</body>
+
+</html>

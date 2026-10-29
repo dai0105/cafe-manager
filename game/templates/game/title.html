@@ -1,0 +1,482 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>店長、今日も人が足りません</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'game/css/style.css' %}"
+    >
+</head>
+
+<body>
+
+<main class="game-container">
+
+    <!-- =========================
+         タイトル
+    ========================== -->
+    <header class="game-header">
+
+        <h1 class="game-title">
+            ☕ 店長、今日も人が足りません
+        </h1>
+
+        <p class="game-subtitle">
+            カフェ経営シミュレーション
+        </p>
+
+        <p>
+            「売上」「店舗評価」「スタッフ」。
+            <br>
+            限られたスタッフをうまく配置して、
+            <br>
+            30日間のカフェ経営を成功させよう！
+        </p>
+
+    </header>
+
+    <section class="game-card best-score-card">
+
+        <p class="game-subtitle">
+            BEST RECORD
+        </p>
+
+        {% if best_score > 0 %}
+
+            <div class="best-score-number">
+                🏆 {{ best_score|intcomma }}
+            </div>
+
+            <p>
+                現在の最高スコア
+            </p>
+
+            <p>
+                この記録を超える経営を目指そう！
+            </p>
+
+        {% else %}
+
+            <div class="best-score-number">
+                🏆 ---
+            </div>
+
+            <p>
+                まだ記録はありません。
+            </p>
+
+            <p>
+                最初の30日間に挑戦してみよう！
+            </p>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         ゲーム開始
+    ========================== -->
+    <section class="game-card">
+
+        <h2>🎯 ゲームの目的</h2>
+
+        <p>
+            あなたはカフェの店長です。
+        </p>
+
+        <p>
+            天気予報やスタッフの能力を確認しながら
+            毎日のシフトを決定します。
+        </p>
+
+        <p>
+            利益と店舗評価を伸ばし、
+            30日後の最高ランクを目指してください。
+        </p>
+
+        <a
+            href="{% url 'start_game' %}"
+            class="game-button"
+        >
+            🎮 新しく始める
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         遊び方
+    ========================== -->
+    <section class="game-card">
+
+        <h2>📖 遊び方</h2>
+
+        <ol class="game-list">
+
+            <li>
+                <strong>天気予報を確認</strong>
+
+                <p>
+                    天気によって、その日の来客数が変化します。
+                </p>
+            </li>
+
+
+            <li>
+                <strong>スタッフを選択</strong>
+
+                <p>
+                    8人のスタッフから、
+                    その日に出勤させる2〜4人を選びます。
+                </p>
+            </li>
+
+
+            <li>
+                <strong>営業開始</strong>
+
+                <p>
+                    出勤スタッフの能力によって、
+                    対応可能な来客数やクレーム率が変化します。
+                </p>
+            </li>
+
+
+            <li>
+                <strong>営業結果を確認</strong>
+
+                <p>
+                    売上・人件費・仕入れ費・利益・店舗評価を確認します。
+                </p>
+            </li>
+
+
+            <li>
+                <strong>30日間の営業を成功させる</strong>
+
+                <p>
+                    スタッフの残り出勤回数にも注意しながら、
+                    最終日まで経営を続けましょう。
+                </p>
+            </li>
+
+        </ol>
+
+    </section>
+
+
+    <!-- =========================
+         シフト
+    ========================== -->
+    <section class="game-card">
+
+        <h2>👥 シフト編成が攻略のカギ</h2>
+
+        <p>
+            スタッフにはそれぞれ
+            「能力」「日給」「出勤可能回数」が設定されています。
+        </p>
+
+        <p>
+            能力の高いスタッフばかり出勤させると
+            営業は安定しますが、人件費が高くなり、
+            後半に出勤できなくなる可能性があります。
+        </p>
+
+        <div class="warning-box">
+
+            <strong>💡 店長の判断ポイント</strong>
+
+            <p>
+                天気や店舗状況を見ながら、
+                「誰を今日使って、誰を温存するか」を考えましょう。
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         店舗評価
+    ========================== -->
+    <section class="game-card">
+
+        <h2>⭐ 店舗評価</h2>
+
+        <p>
+            店舗評価が高いほど、
+            お店の評判が良くなり来客数も増えていきます。
+        </p>
+
+
+        <h3>📈 評価が上がる主な要素</h3>
+
+        <ul class="game-list">
+
+            <li>
+                ⭐ 能力の高いスタッフによる良質な営業
+            </li>
+
+            <li>
+                ☕ 常連客の来店
+            </li>
+
+            <li>
+                🧁 新商品の販売開始
+            </li>
+
+            <li>
+                💰 良好な利益
+            </li>
+
+        </ul>
+
+
+        <h3>📉 評価が下がる主な要素</h3>
+
+        <ul class="game-list">
+
+            <li>
+                ⚠ クレームの発生
+            </li>
+
+            <li>
+                ⚠ 人手不足による機会損失
+            </li>
+
+            <li>
+                📉 厳しい営業結果
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =========================
+         ランダムイベント
+    ========================== -->
+    <section class="game-card">
+
+        <h2>🎲 ランダムイベント</h2>
+
+        <p>
+            営業中には、
+            さまざまな出来事が発生します。
+        </p>
+
+        <ul class="game-list">
+
+            <li>☕ 常連客の来店</li>
+
+            <li>⚠ クレームの発生</li>
+
+            <li>🧁 新商品の販売開始</li>
+
+            <li>🌀 台風などの天候変化</li>
+
+        </ul>
+
+        <div class="success-box">
+
+            <strong>毎日同じ営業にはなりません。</strong>
+
+            <p>
+                店長として、その日の状況に対応しましょう。
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ゲームオーバー
+    ========================== -->
+    <section class="game-card">
+
+        <h2>⚠ ゲームオーバー</h2>
+
+        <div class="warning-box">
+
+            <p>
+                出勤可能なスタッフが2人未満になると、
+                店舗の営業を継続できなくなります。
+            </p>
+
+        </div>
+
+        <p>
+            目先の売上だけでなく、
+            30日間を見据えたシフト編成が重要です。
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         エンディングランク
+    ========================== -->
+    <section class="game-card">
+
+        <h2>🏆 エンディングランク</h2>
+
+        <p>
+            30日間の経営結果から
+            総合スコアが計算されます。
+        </p>
+
+        <div class="success-box">
+
+            <strong>
+                総合スコア
+            </strong>
+
+            <p>
+                (店舗評価 × 100)
+                ＋
+                (所持金 ÷ 1000)
+            </p>
+
+        </div>
+
+
+        <div class="rank-list">
+
+            <div class="rank-item rank-s">
+
+                <strong>🏆 S</strong>
+
+                <span>
+                    10,000点以上
+                    「伝説の店長」
+                </span>
+
+            </div>
+
+
+            <div class="rank-item rank-a">
+
+                <strong>🥇 A</strong>
+
+                <span>
+                    8,000点以上
+                    「カリスマ店長」
+                </span>
+
+            </div>
+
+
+            <div class="rank-item rank-b">
+
+                <strong>🥈 B</strong>
+
+                <span>
+                    6,000点以上
+                    「人気店店長」
+                </span>
+
+            </div>
+
+
+            <div class="rank-item rank-c">
+
+                <strong>🥉 C</strong>
+
+                <span>
+                    4,000点以上
+                    「地域密着店長」
+                </span>
+
+            </div>
+
+
+            <div class="rank-item rank-d">
+
+                <strong>☕ D</strong>
+
+                <span>
+                    4,000点未満
+                    「駆け出し店長」
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         攻略ヒント
+    ========================== -->
+    <section class="game-card">
+
+        <h2>💡 店長へのヒント</h2>
+
+        <ul class="game-list">
+
+            <li>
+                晴れの日は来客増加に備えて
+                強いスタッフを使うのも一つの選択です。
+            </li>
+
+            <li>
+                来客が少なそうな日は
+                エーススタッフを温存する方法もあります。
+            </li>
+
+            <li>
+                強いスタッフだけでは
+                30日間を乗り切れません。
+            </li>
+
+            <li>
+                利益だけではなく、
+                店舗評価も最終スコアに大きく影響します。
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =========================
+         最終スタートボタン
+    ========================== -->
+    <section class="game-card start-card">
+
+        <h2>☕ 店長として30日間を乗り切ろう</h2>
+
+        <p>
+            シフトと経営判断を駆使して、
+            最高ランクを目指してください。
+        </p>
+
+        <a
+            href="{% url 'start_game' %}"
+            class="game-button"
+        >
+            🎮 30日間の経営を始める
+        </a>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

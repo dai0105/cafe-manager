@@ -1,0 +1,1755 @@
+/* =========================================
+   Cafe Manager
+   共通スタイル
+========================================= */
+
+
+/* =========================================
+   カラーテーマ
+========================================= */
+
+:root {
+    --bg-main: #f5f0e8;
+    --bg-card: #fffdf9;
+    --bg-soft: #f8f5ef;
+
+    --coffee-dark: #382a20;
+    --coffee: #4b382b;
+    --coffee-light: #8b7766;
+
+    --green: #476653;
+    --green-dark: #385344;
+    --green-soft: #ecf5ee;
+
+    --gold: #d3a84f;
+    --gold-soft: #fff8df;
+
+    --red: #b54c45;
+    --red-soft: #fff0ee;
+
+    --orange: #dcaa4d;
+    --orange-soft: #fff4df;
+
+    --border: #e6ddd2;
+
+    --text-main: #3c342d;
+    --text-sub: #74675c;
+
+    --shadow:
+        0 8px 24px
+        rgba(75, 55, 40, 0.08);
+}
+
+
+/* =========================================
+   リセット
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8f4ed 0%,
+            #f2ebe1 100%
+        );
+
+    color: var(--text-main);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+
+    line-height: 1.7;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+a {
+    color: inherit;
+}
+
+
+/* =========================================
+   ページ全体
+========================================= */
+
+.game-container {
+    width: min(
+        calc(100% - 32px),
+        720px
+    );
+
+    margin: 0 auto;
+
+    padding:
+        40px
+        0
+        80px;
+}
+
+
+/* =========================================
+   タイトルヘッダー
+========================================= */
+
+.game-header {
+    padding:
+        28px
+        20px
+        36px;
+
+    text-align: center;
+}
+
+.game-title {
+    margin:
+        0
+        0
+        10px;
+
+    color: var(--coffee-dark);
+
+    font-size:
+        clamp(
+            30px,
+            7vw,
+            46px
+        );
+
+    font-weight: 800;
+
+    line-height: 1.25;
+
+    letter-spacing: 0.02em;
+}
+
+.game-subtitle {
+    margin: 0;
+
+    color: var(--coffee-light);
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+}
+
+.game-header > p:not(.game-subtitle) {
+    max-width: 520px;
+
+    margin:
+        24px
+        auto
+        0;
+
+    color: #685a4d;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   共通カード
+========================================= */
+
+.game-card {
+    margin-bottom: 22px;
+
+    padding: 26px;
+
+    background:
+        var(--bg-card);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        var(--shadow);
+}
+
+.game-card h2 {
+    margin:
+        0
+        0
+        18px;
+
+    color: var(--coffee);
+
+    font-size: 21px;
+
+    line-height: 1.4;
+}
+
+.game-card h3 {
+    margin:
+        26px
+        0
+        12px;
+
+    color: #685344;
+
+    font-size: 16px;
+}
+
+.game-card > p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================
+   ゲーム開始カード
+========================================= */
+
+.start-card {
+    padding:
+        32px
+        26px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffdf9 0%,
+            #f0e8da 100%
+        );
+
+    border:
+        1px solid
+        #ded1bf;
+}
+
+.start-card h2 {
+    color:
+        var(--green-dark);
+}
+
+.start-card p {
+    color:
+        var(--text-sub);
+}
+
+
+/* =========================================
+   メインボタン
+========================================= */
+
+.game-button {
+    display: block;
+
+    width: 100%;
+
+    min-height: 54px;
+
+    margin-top: 24px;
+
+    padding:
+        15px
+        22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--green-dark)
+        );
+
+    color: #ffffff;
+
+    border: none;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 6px 16px
+        rgba(56, 83, 68, 0.20);
+
+    font: inherit;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.game-button:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 9px 20px
+        rgba(56, 83, 68, 0.24);
+}
+
+.game-button:active {
+    transform:
+        translateY(1px);
+
+    box-shadow:
+        0 4px 10px
+        rgba(56, 83, 68, 0.18);
+}
+
+.game-button:focus-visible {
+    outline:
+        3px solid
+        var(--gold);
+
+    outline-offset: 4px;
+}
+
+
+/* =========================================
+   サブボタン
+========================================= */
+
+.sub-button {
+    display: block;
+
+    width: 100%;
+
+    min-height: 50px;
+
+    margin-top: 14px;
+
+    padding:
+        13px
+        20px;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--green-dark);
+
+    border:
+        1px solid
+        #aac0af;
+
+    border-radius: 12px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.sub-button:hover {
+    background:
+        var(--green-soft);
+}
+
+.sub-button:focus-visible {
+    outline:
+        3px solid
+        var(--gold);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================
+   リスト
+========================================= */
+
+.game-list {
+    margin:
+        0;
+
+    padding-left:
+        24px;
+}
+
+.game-list li {
+    margin-bottom:
+        14px;
+}
+
+.game-list li:last-child {
+    margin-bottom:
+        0;
+}
+
+.game-list strong {
+    color:
+        #47372b;
+}
+
+.game-list p {
+    margin:
+        4px
+        0
+        12px;
+
+    color:
+        var(--text-sub);
+}
+
+
+/* =========================================
+   注意・成功メッセージ
+========================================= */
+
+.warning-box {
+    margin:
+        18px
+        0;
+
+    padding:
+        16px
+        18px;
+
+    background:
+        var(--orange-soft);
+
+    border-left:
+        5px solid
+        var(--orange);
+
+    border-radius:
+        10px;
+}
+
+.success-box {
+    margin:
+        18px
+        0;
+
+    padding:
+        16px
+        18px;
+
+    background:
+        var(--green-soft);
+
+    border-left:
+        5px solid
+        #5b8d68;
+
+    border-radius:
+        10px;
+}
+
+.danger-box {
+    margin:
+        18px
+        0;
+
+    padding:
+        16px
+        18px;
+
+    background:
+        var(--red-soft);
+
+    border-left:
+        5px solid
+        var(--red);
+
+    border-radius:
+        10px;
+}
+
+.warning-box p:last-child,
+.success-box p:last-child,
+.danger-box p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================
+   ステータス表示
+
+   dashboard / result / endingでも使える
+========================================= */
+
+.status-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin:
+        18px
+        0;
+}
+
+.status-box {
+    padding:
+        17px
+        12px;
+
+    background:
+        var(--bg-soft);
+
+    border:
+        1px solid
+        #eee4d8;
+
+    border-radius:
+        13px;
+
+    text-align: center;
+}
+
+.status-label {
+    display: block;
+
+    margin-bottom:
+        5px;
+
+    color:
+        var(--coffee-light);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.status-value {
+    display: block;
+
+    color:
+        var(--coffee-dark);
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================
+   プラス・マイナス表示
+========================================= */
+
+.positive {
+    color:
+        #397653;
+
+    font-weight: 700;
+}
+
+.negative {
+    color:
+        var(--red);
+
+    font-weight: 700;
+}
+
+.neutral {
+    color:
+        var(--text-sub);
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   ランク一覧
+========================================= */
+
+.rank-list {
+    display: grid;
+
+    gap: 10px;
+
+    margin-top:
+        20px;
+}
+
+.rank-item {
+    display: flex;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    gap: 14px;
+
+    min-height: 58px;
+
+    padding:
+        12px
+        16px;
+
+    background:
+        var(--bg-soft);
+
+    border:
+        1px solid
+        #eee4d8;
+
+    border-left:
+        5px solid
+        #aaaaaa;
+
+    border-radius:
+        11px;
+}
+
+.rank-item strong {
+    flex-shrink: 0;
+
+    min-width: 66px;
+
+    color:
+        var(--coffee);
+
+    font-size: 20px;
+}
+
+.rank-item span {
+    color:
+        #65584e;
+
+    font-size: 14px;
+
+    text-align: right;
+}
+
+
+/* Sランク */
+
+.rank-s {
+    background:
+        linear-gradient(
+            135deg,
+            #fff9e2,
+            #fff3c2
+        );
+
+    border-left-color:
+        #d4a62a;
+}
+
+.rank-s strong {
+    color:
+        #9d7300;
+}
+
+
+/* Aランク */
+
+.rank-a {
+    border-left-color:
+        #748666;
+}
+
+.rank-a strong {
+    color:
+        #647258;
+}
+
+
+/* Bランク */
+
+.rank-b {
+    border-left-color:
+        #9b7257;
+}
+
+.rank-b strong {
+    color:
+        #805943;
+}
+
+
+/* Cランク */
+
+.rank-c {
+    border-left-color:
+        #7891a3;
+}
+
+.rank-c strong {
+    color:
+        #5e798c;
+}
+
+
+/* Dランク */
+
+.rank-d {
+    border-left-color:
+        #aaaaaa;
+}
+
+.rank-d strong {
+    color:
+        #777777;
+}
+
+
+/* =========================================
+   スタッフカード
+   後でselect_staff.htmlでも使える
+========================================= */
+
+.staff-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+.staff-card {
+    padding:
+        16px;
+
+    background:
+        var(--bg-soft);
+
+    border:
+        2px solid
+        transparent;
+
+    border-radius:
+        13px;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        background 0.2s ease;
+}
+
+.staff-card:hover {
+    transform:
+        translateY(-1px);
+
+    border-color:
+        #cfc1b0;
+}
+
+.staff-name {
+    margin-bottom:
+        10px;
+
+    color:
+        var(--coffee-dark);
+
+    font-size:
+        17px;
+
+    font-weight:
+        800;
+}
+
+.staff-info {
+    margin:
+        5px
+        0;
+
+    color:
+        var(--text-sub);
+
+    font-size:
+        14px;
+}
+
+
+/* =========================================
+   フォーム・チェックボックス
+========================================= */
+
+input[type="checkbox"] {
+    width: 20px;
+
+    height: 20px;
+
+    margin-right:
+        8px;
+
+    accent-color:
+        var(--green);
+
+    cursor: pointer;
+}
+
+input[type="checkbox"]:focus-visible {
+    outline:
+        3px solid
+        var(--gold);
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================
+   評価変動ログ
+========================================= */
+
+.reputation-log {
+    margin:
+        18px
+        0;
+
+    padding:
+        0;
+
+    list-style:
+        none;
+}
+
+.reputation-log li {
+    margin-bottom:
+        8px;
+
+    padding:
+        11px
+        14px;
+
+    background:
+        var(--bg-soft);
+
+    border-radius:
+        9px;
+}
+
+
+/* =========================================
+   店長日報
+========================================= */
+
+.daily-report {
+    margin-top:
+        18px;
+
+    padding:
+        20px;
+
+    background:
+        #fffaf2;
+
+    border:
+        1px solid
+        #eadbc8;
+
+    border-radius:
+        14px;
+
+    color:
+        #56483c;
+
+    line-height:
+        1.9;
+}
+
+.daily-report-title {
+    margin-bottom:
+        12px;
+
+    color:
+        var(--coffee);
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================
+   エンディング
+========================================= */
+
+.ending-card {
+    text-align:
+        center;
+}
+
+.ending-rank {
+    margin:
+        18px
+        0;
+
+    font-size:
+        clamp(
+            64px,
+            18vw,
+            110px
+        );
+
+    font-weight:
+        900;
+
+    line-height:
+        1;
+}
+
+.ending-rank-s {
+    color:
+        #c79400;
+
+    text-shadow:
+        0 3px 15px
+        rgba(212, 166, 42, 0.25);
+}
+
+.ending-rank-a {
+    color:
+        #607253;
+}
+
+.ending-rank-b {
+    color:
+        #8a624b;
+}
+
+.ending-rank-c {
+    color:
+        #627f93;
+}
+
+.ending-rank-d {
+    color:
+        #777777;
+}
+
+.ending-title {
+    margin-bottom:
+        24px;
+
+    color:
+        var(--coffee-dark);
+
+    font-size:
+        24px;
+}
+
+
+/* =========================================
+   ゲームオーバー
+========================================= */
+
+.game-over-title {
+    color:
+        var(--red);
+
+    font-size:
+        clamp(
+            30px,
+            8vw,
+            44px
+        );
+
+    text-align:
+        center;
+}
+
+.game-over-message {
+    padding:
+        20px;
+
+    background:
+        var(--red-soft);
+
+    border:
+        1px solid
+        #e6b5b0;
+
+    border-radius:
+        14px;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================
+   区切り
+========================================= */
+
+.section-divider {
+    width:
+        60px;
+
+    height:
+        3px;
+
+    margin:
+        26px
+        auto;
+
+    background:
+        var(--gold);
+
+    border:
+        0;
+
+    border-radius:
+        999px;
+}
+
+
+/* =========================================
+   フッター
+========================================= */
+
+.game-footer {
+    padding:
+        24px
+        0;
+
+    color:
+        var(--coffee-light);
+
+    font-size:
+        12px;
+
+    text-align:
+        center;
+}
+
+/* =========================================
+   シフト選択
+========================================= */
+
+.staff-select-card {
+    display: block;
+    position: relative;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.staff-select-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+}
+
+.staff-select-header .staff-name {
+    margin: 0;
+}
+
+
+/* チェックされたカード */
+
+.staff-select-card:has(
+    input[type="checkbox"]:checked
+) {
+    background: var(--green-soft);
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 5px 16px
+        rgba(71, 102, 83, 0.14);
+}
+
+
+/* 選択時の左側アクセント */
+
+.staff-select-card:has(
+    input[type="checkbox"]:checked
+)::before {
+    content: "";
+
+    position: absolute;
+
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+
+    width: 4px;
+
+    background: var(--green);
+
+    border-radius:
+        0 4px 4px 0;
+}
+
+
+/* 出勤不可 */
+
+.staff-select-card:has(
+    input[type="checkbox"]:disabled
+) {
+    background: #eeeeeb;
+
+    opacity: 0.58;
+
+    cursor: not-allowed;
+}
+
+.staff-unavailable {
+    margin-top: 12px;
+
+    padding: 7px 10px;
+
+    background: var(--red-soft);
+
+    color: var(--red);
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   営業結果
+========================================= */
+
+.result-money {
+    margin:
+        8px
+        0
+        0;
+
+    font-size:
+        26px;
+
+    font-weight:
+        900;
+}
+
+
+/* 評価ログ */
+
+.reputation-log {
+    display: grid;
+
+    gap: 9px;
+
+    margin:
+        16px
+        0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+.reputation-log li {
+    padding:
+        12px
+        14px;
+
+    background:
+        var(--bg-soft);
+
+    border:
+        1px solid
+        #eee4d8;
+
+    border-radius:
+        10px;
+}
+
+
+/* 現在資金 */
+
+.ending-money {
+    margin:
+        14px
+        0
+        18px;
+
+    color:
+        var(--green-dark);
+
+    font-size:
+        clamp(
+            30px,
+            9vw,
+            42px
+        );
+
+    font-weight:
+        900;
+
+    line-height:
+        1.2;
+}
+
+
+/* イベント見出し */
+
+.success-box h3,
+.warning-box h3,
+.danger-box h3 {
+    margin:
+        0
+        0
+        8px;
+
+    color:
+        inherit;
+}
+
+
+/* 結果画面では重要数値を少し強調 */
+
+.game-card .status-value.positive {
+    color:
+        #397653;
+}
+
+.game-card .status-value.negative {
+    color:
+        var(--red);
+}
+
+/* =========================================
+   エンディング追加デザイン
+========================================= */
+
+.final-money-box,
+.game-over-money {
+    margin-top: 20px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8f5ef,
+            #fffdf9
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 15px;
+
+    text-align: center;
+}
+
+
+/* Sランク専用 */
+
+.rank-message-s {
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff8df,
+            #fff0ba
+        );
+
+    border:
+        1px solid
+        #e3c969;
+
+    border-radius: 14px;
+
+    color: #6c5311;
+}
+
+.rank-message-s strong {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #9d7300;
+
+    font-size: 18px;
+}
+
+
+/* ランク表示に少し立体感 */
+
+.ending-rank {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 140px;
+
+    height: 140px;
+
+    margin:
+        24px
+        auto;
+
+    background:
+        #ffffff;
+
+    border-radius:
+        50%;
+
+    box-shadow:
+        0 10px 28px
+        rgba(75, 55, 40, 0.13);
+}
+
+
+/* S */
+
+.ending-rank-s {
+    background:
+        linear-gradient(
+            135deg,
+            #fff8d6,
+            #e8bd43
+        );
+
+    color: #8d6500;
+
+    border:
+        4px solid
+        #d4a62a;
+}
+
+
+/* A */
+
+.ending-rank-a {
+    background:
+        linear-gradient(
+            135deg,
+            #f0f5e9,
+            #b6c2a7
+        );
+
+    color: #526246;
+
+    border:
+        4px solid
+        #748666;
+}
+
+
+/* B */
+
+.ending-rank-b {
+    background:
+        linear-gradient(
+            135deg,
+            #f5ebe5,
+            #c69a7d
+        );
+
+    color: #704d38;
+
+    border:
+        4px solid
+        #9b7257;
+}
+
+
+/* C */
+
+.ending-rank-c {
+    background:
+        linear-gradient(
+            135deg,
+            #edf4f7,
+            #aec3cf
+        );
+
+    color: #526f83;
+
+    border:
+        4px solid
+        #7891a3;
+}
+
+
+/* D */
+
+.ending-rank-d {
+    background:
+        linear-gradient(
+            135deg,
+            #f3f3f3,
+            #d0d0d0
+        );
+
+    color: #666666;
+
+    border:
+        4px solid
+        #999999;
+}
+
+
+/* ゲームオーバー */
+
+.game-over-message h2 {
+    margin:
+        0
+        0
+        12px;
+
+    color:
+        var(--red);
+}
+
+.game-over-message p {
+    margin-bottom: 0;
+}
+
+
+/* エンディングスマホ */
+
+@media (max-width: 520px) {
+
+    .ending-rank {
+        width: 110px;
+        height: 110px;
+
+        margin:
+            18px
+            auto;
+
+        font-size: 68px;
+    }
+
+    .final-money-box,
+    .game-over-money {
+        padding: 18px;
+    }
+}
+
+/* =========================================
+   NEW RECORD
+========================================= */
+
+.new-record-card {
+    overflow: hidden;
+
+    position: relative;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff9df 0%,
+            #ffe9a6 100%
+        );
+
+    border:
+        2px solid
+        #d4a62a;
+
+    box-shadow:
+        0 10px 30px
+        rgba(212, 166, 42, 0.20);
+}
+
+.new-record-title {
+    margin-bottom: 8px;
+
+    color: #9d7300;
+
+    font-size:
+        clamp(
+            24px,
+            7vw,
+            34px
+        );
+
+    font-weight: 900;
+
+    letter-spacing: 0.04em;
+}
+
+.new-record-card p {
+    margin-bottom: 12px;
+
+    color: #765d1a;
+
+    font-weight: 700;
+}
+
+.new-record-score {
+    color: #8d6500;
+
+    font-size:
+        clamp(
+            38px,
+            12vw,
+            58px
+        );
+
+    font-weight: 900;
+
+    line-height: 1.2;
+}
+
+/* =========================================
+   BEST SCORE
+========================================= */
+
+.best-score-card {
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffdf9 0%,
+            #fff5d5 100%
+        );
+
+    border:
+        2px solid
+        #e0c46d;
+
+    box-shadow:
+        0 10px 28px
+        rgba(212, 166, 42, 0.13);
+}
+
+.best-score-number {
+    margin:
+        12px
+        0;
+
+    color:
+        #9d7300;
+
+    font-size:
+        clamp(
+            36px,
+            11vw,
+            52px
+        );
+
+    font-weight: 900;
+
+    line-height: 1.2;
+}
+
+.best-score-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================================
+   スマホ向け
+========================================= */
+
+@media (max-width: 520px) {
+
+    .game-container {
+        width:
+            calc(100% - 20px);
+
+        padding:
+            18px
+            0
+            50px;
+    }
+
+    .game-header {
+        padding:
+            22px
+            10px
+            28px;
+    }
+
+    .game-title {
+        font-size:
+            29px;
+    }
+
+    .game-subtitle {
+        font-size:
+            14px;
+    }
+
+    .game-card {
+        margin-bottom::
+            14px;
+
+        padding:
+            19px;
+
+        border-radius:
+            15px;
+    }
+
+    .game-card h2 {
+        font-size:
+            19px;
+    }
+
+    .game-card h3 {
+        font-size:
+           15px;
+    }
+
+    .staff-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .status-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .status-box {
+        padding:
+            14px
+            8px;
+    }
+
+    .status-label {
+        font-size:
+            12px;
+    }
+
+    .status-value {
+        font-size:
+            18px;
+    }
+
+    .rank-item {
+        align-items:
+            flex-start;
+
+        padding:
+            12px;
+    }
+
+    .rank-item strong {
+        min-width:
+            58px;
+
+        font-size:
+            18px;
+    }
+
+    .rank-item span {
+        font-size:
+            13px;
+    }
+
+    .game-button {
+        min-height:
+            52px;
+
+        padding:
+            14px;
+
+        font-size:
+            16px;
+
+        border-radius:
+            12px;
+    }
+
+    .warning-box,
+    .success-box,
+    .danger-box {
+        padding:
+            14px;
+    }
+}
+
+
+/* =========================================
+   小さいスマホ
+========================================= */
+
+@media (max-width: 360px) {
+
+    .game-title {
+        font-size:
+            25px;
+    }
+
+    .game-card {
+        padding:
+            16px;
+    }
+
+    .status-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .rank-item {
+        flex-direction:
+            column;
+
+        gap:
+            4px;
+    }
+
+    .rank-item span {
+        text-align:
+            left;
+    }
+}
+
+
+/* =========================================
+   アニメーションを抑えたいユーザー向け
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+}

@@ -1,0 +1,476 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% if ending_reason %}
+            ゲームオーバー
+        {% else %}
+            30日間の経営結果
+        {% endif %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'game/css/style.css' %}"
+    >
+</head>
+
+<body>
+
+<main class="game-container">
+
+
+    {% if ending_reason %}
+
+        <!-- ゲームオーバー -->
+
+        <header class="game-header">
+
+            <p class="game-subtitle">
+                MANAGEMENT FAILED
+            </p>
+
+            <h1 class="game-over-title">
+                GAME OVER
+            </h1>
+
+            <p>
+                店舗の営業を継続できなくなりました。
+            </p>
+
+        </header>
+
+
+        <section class="game-card ending-card">
+
+            <div class="game-over-message">
+
+                <h2>
+                    ⚠ 営業継続不能
+                </h2>
+
+                <p>
+                    {{ ending_reason }}
+                </p>
+
+            </div>
+
+
+            <div class="status-grid">
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        最終営業日
+                    </span>
+
+                    <span class="status-value">
+                        Day {{ day }}
+                    </span>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        店舗評価
+                    </span>
+
+                    <span class="status-value">
+                        ⭐ {{ reputation }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="game-over-money">
+
+                <span class="status-label">
+                    最終資金
+                </span>
+
+                <div class="ending-money">
+                    {{ money|intcomma }}円
+                </div>
+
+            </div>
+
+
+            <div class="danger-box">
+
+                <strong>
+                    📋 店長へのフィードバック
+                </strong>
+
+                <p>
+                    30日間を見据えた
+                    スタッフの出勤管理が必要だったようです。
+                </p>
+
+                <p>
+                    次の経営では、エーススタッフの
+                    出勤回数にも注意してみましょう。
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="game-card start-card">
+
+            <h2>
+                🔄 もう一度挑戦
+            </h2>
+
+            <p>
+                今回の経験を活かして、
+                次は30日間の完走を目指しましょう。
+            </p>
+
+            <a
+                href="{% url 'start_game' %}"
+                class="game-button"
+            >
+                🎮 再挑戦する
+            </a>
+
+            <a
+                href="{% url 'title' %}"
+                class="sub-button"
+            >
+                🏠 タイトルへ戻る
+            </a>
+
+        </section>
+
+
+    {% else %}
+
+
+        <!-- 30日完走 -->
+
+        <header class="game-header">
+
+            <p class="game-subtitle">
+                30 DAYS COMPLETED
+            </p>
+
+            <h1 class="game-title">
+                🎉 30日間営業達成！
+            </h1>
+
+            <p>
+                30日間のカフェ経営、
+                本当にお疲れ様でした。
+            </p>
+
+        </header>
+
+
+        <!-- NEW RECORD -->
+
+        {% if is_new_record %}
+
+            <section class="game-card new-record-card">
+
+                <div class="new-record-title">
+                    🎉 NEW RECORD！
+                </div>
+
+                <p>
+                    最高スコアを更新しました！
+                </p>
+
+                <div class="new-record-score">
+                    {{ best_score|intcomma }}
+                </div>
+
+            </section>
+
+        {% endif %}
+
+
+        <!-- ランク -->
+
+        <section class="game-card ending-card">
+
+            <p class="game-subtitle">
+                FINAL RANK
+            </p>
+
+
+            {% if rank == "S" %}
+
+                <div class="ending-rank ending-rank-s">
+                    S
+                </div>
+
+            {% elif rank == "A" %}
+
+                <div class="ending-rank ending-rank-a">
+                    A
+                </div>
+
+            {% elif rank == "B" %}
+
+                <div class="ending-rank ending-rank-b">
+                    B
+                </div>
+
+            {% elif rank == "C" %}
+
+                <div class="ending-rank ending-rank-c">
+                    C
+                </div>
+
+            {% else %}
+
+                <div class="ending-rank ending-rank-d">
+                    D
+                </div>
+
+            {% endif %}
+
+
+            <h2 class="ending-title">
+                {{ title }}
+            </h2>
+
+            <p>
+                {{ message }}
+            </p>
+
+        </section>
+
+
+        <!-- 最終経営結果 -->
+
+        <section class="game-card">
+
+            <h2>
+                📊 最終経営結果
+            </h2>
+
+
+            <div class="status-grid">
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        今回のスコア
+                    </span>
+
+                    <span class="status-value">
+                        {{ score|intcomma }}
+                    </span>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        BEST SCORE
+                    </span>
+
+                    <span class="status-value">
+                        🏆 {{ best_score|intcomma }}
+                    </span>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        店舗評価
+                    </span>
+
+                    <span class="status-value">
+                        ⭐ {{ reputation }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="final-money-box">
+
+                <span class="status-label">
+                    最終資金
+                </span>
+
+                <div class="ending-money">
+                    {{ money|intcomma }}円
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ランクコメント -->
+
+        <section class="game-card">
+
+            <h2>
+                ☕ 店長としての30日間
+            </h2>
+
+
+            {% if rank == "S" %}
+
+                <div class="rank-message rank-message-s">
+
+                    <strong>
+                        🏆 素晴らしい経営でした！
+                    </strong>
+
+                    <p>
+                        売上・店舗評価・スタッフ管理、
+                        すべてを高いレベルで両立しました。
+                    </p>
+
+                    <p>
+                        あなたはまさに
+                        「伝説の店長」です。
+                    </p>
+
+                </div>
+
+
+            {% elif rank == "A" %}
+
+                <div class="success-box">
+
+                    <strong>
+                        🌟 見事な店舗経営でした！
+                    </strong>
+
+                    <p>
+                        スタッフを上手く配置しながら、
+                        高い店舗評価と利益を残しました。
+                    </p>
+
+                </div>
+
+
+            {% elif rank == "B" %}
+
+                <div class="success-box">
+
+                    <strong>
+                        ☕ 安定した店舗経営でした。
+                    </strong>
+
+                    <p>
+                        多くのお客様に利用される
+                        人気店へと成長しました。
+                    </p>
+
+                </div>
+
+
+            {% elif rank == "C" %}
+
+                <div class="warning-box">
+
+                    <strong>
+                        📋 30日間を無事に乗り切りました。
+                    </strong>
+
+                    <p>
+                        さらにシフトや店舗評価を意識すれば、
+                        上位ランクも狙えそうです。
+                    </p>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="warning-box">
+
+                    <strong>
+                        🔰 店長としての第一歩です。
+                    </strong>
+
+                    <p>
+                        今回の経験を活かせば、
+                        次回はさらに良い経営ができるはずです。
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- 再プレイ -->
+
+        <section class="game-card start-card">
+
+            {% if is_new_record %}
+
+                <h2>
+                    🏆 最高記録をさらに更新しよう
+                </h2>
+
+                <p>
+                    新しいBEST SCOREが誕生しました。
+                    次はさらに上の記録を狙いましょう！
+                </p>
+
+            {% else %}
+
+                <h2>
+                    🎮 BEST SCOREを更新しよう
+                </h2>
+
+                <p>
+                    今回のスコアは
+                    <strong>{{ score|intcomma }}</strong>点。
+                </p>
+
+                <p>
+                    現在のBESTは
+                    <strong>{{ best_score|intcomma }}</strong>点です。
+                </p>
+
+            {% endif %}
+
+            <a
+                href="{% url 'title' %}"
+                class="sub-button"
+            >
+                🏠 タイトルへ戻る
+            </a>
+
+        </section>
+
+
+    {% endif %}
+
+
+</main>
+
+</body>
+
+</html>
