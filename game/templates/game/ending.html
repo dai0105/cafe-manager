@@ -26,6 +26,22 @@
     >
 </head>
 
+<head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LP801WZ30S"></script>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'G-LP801WZ30S');
+    </script>
+
 <body>
 
 <main class="game-container">
@@ -480,6 +496,14 @@
 {% if not ending_reason %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof gtag === "function") {
+        gtag("event", "game_complete", {
+            score: Number("{{ score|default:0 }}"),
+            rank: "{{ rank|default:''|escapejs }}"
+        });
+    }
+
     const storageKey = "cafeManagerBestScore";
     const currentScore = Number("{{ score|default:0 }}");
 
