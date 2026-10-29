@@ -109,6 +109,7 @@
         <a
             href="{% url 'start_game' %}"
             class="game-button"
+            id="game-start-button"
         >
             🎮 新しく始める
         </a>
@@ -517,6 +518,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
         submessageElement.textContent =
             "この記録を超える経営を目指そう！";
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const startButton =
+        document.getElementById("game-start-button");
+
+    if (startButton) {
+        startButton.addEventListener("click", function () {
+            if (typeof gtag === "function") {
+                gtag("event", "game_start");
+            }
+        });
     }
 });
 </script>
